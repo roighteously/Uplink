@@ -23,6 +23,11 @@ div {
 	max-width: 100%;
 }
 
+h1 {
+	font-size: medium;
+}
+
 #title {
+	font-size: large;
 	font-family: 'Rubik Mono One', sans-serif;
 }
