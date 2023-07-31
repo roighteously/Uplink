@@ -1,4 +1,5 @@
 {
+	"header_end": "53",
 	"imap": {
 		"host": "mail.ifarded.lol",
 		"port": "993",
