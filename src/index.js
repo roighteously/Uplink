@@ -62,13 +62,15 @@ function init() {
 function start() {
 	IS_STARTED = true;
 
-	app.whenReady().then(() => {
-		startWindow();
-	});
-
-	app.on('window-all-closed', function () {
-		if (process.platform !== 'darwin') app.quit()
-	});
+	if(process.argv[2] !== 'headless') {
+		app.whenReady().then(() => {
+			startWindow();
+		});
+	
+		app.on('window-all-closed', function () {
+			if (process.platform !== 'darwin') app.quit()
+		});
+	}
 
 	happ.get('/msgs', (req, res) => {
 		init();
