@@ -1,0 +1,8 @@
+{
+	"imap": {
+		"host": "mail.ifarded.lol",
+		"ssl": true,
+		"username": "admin@ifarded.lol",
+		"password": "abc"
+	}
+}
