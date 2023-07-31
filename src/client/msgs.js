@@ -1,10 +1,11 @@
 function sortMessages() {
 	const messages = {};
 	document.querySelector('.flex').innerHTML = `<div class="msg">
-	<h1>
+	<h1 id="title">
 		Uplink
 	</h1>
 	<p>The missing link between desktop and phone.</p>
+	<p>v0.2.0</p>
 	<button onclick="sortMessages()">Get new messages</button>
 	</div>`
 	window.uplink.getMsg().then(res => {
