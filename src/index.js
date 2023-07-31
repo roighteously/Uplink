@@ -1,12 +1,14 @@
-var Imap = require('node-imap'),
-    inspect = require('util').inspect;
- 
+const Imap = require('node-imap');
+const inspect = require('util').inspect;
+
+const cfg = require('../config.json');
+
 var imap = new Imap({
-  user: 'mygmailname@gmail.com',
-  password: 'mygmailpassword',
-  host: 'imap.gmail.com',
-  port: 993,
-  tls: true
+  user: cfg.imap.username,
+  password: cfg.imap.password,
+  host: cfg.imap.host,
+  port: cfg.imap.port,
+  tls: cfg.imap.tls
 });
  
 function openInbox(cb) {
