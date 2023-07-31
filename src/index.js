@@ -1,9 +1,13 @@
 const Imap = require('node-imap');
 const fs = require('fs');
+const express = require('express');
+const http = require('http');
 const path = require('path');
 const { app, BrowserWindow, ipcMain } = require('electron');
 require('electron-reload')(__dirname)
 
+const happ = express();
+const server = http.createServer(happ);
 const cfg = require('../config.json');
 
 let IS_STARTED = false;
@@ -59,8 +63,15 @@ function start() {
 	IS_STARTED = true;
 
 	app.whenReady().then(() => {
-		ipcMain.handle('get_msg', async () => {
-			init();
+		startWindow();
+	});
+
+	app.on('window-all-closed', function () {
+		if (process.platform !== 'darwin') app.quit()
+	});
+
+	happ.get('/msgs', (req, res) => {
+		init();
 			const FILES = [];
 			fs.readdirSync(path.resolve('./uplinks')).forEach(file => {
 				if(file === '.gitkeep') return;
@@ -69,14 +80,8 @@ function start() {
 					content: fs.readFileSync(path.resolve('./uplinks/' + file)).toString()
 				});
 			})
-			return {FILES, END: cfg['header_end']};
-		})
-		startWindow();
-	});
-
-	app.on('window-all-closed', function () {
-		if (process.platform !== 'darwin') app.quit()
-	});
+			res.send({FILES, END: cfg['header_end']});
+	})
 }
 
 function startWindow() {
@@ -85,12 +90,15 @@ function startWindow() {
 		height: 600,
 		minWidth: 800,
 		minHeight: 600,
-		webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
 	})
 
-	window.loadFile(path.join(__dirname, "client/index.html"))
+	window.loadURL(`http://localhost:9069`)
 }
 
 init();
+
+happ.use('/', express.static(path.resolve('./src/client')))
+
+server.listen(9069, () => {
+	console.log('HTTP server started.');
+})

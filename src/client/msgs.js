@@ -8,7 +8,7 @@ function sortMessages() {
 	<p>v0.2.0</p>
 	<button onclick="sortMessages()">Get new messages</button>
 	</div>`
-	window.uplink.getMsg().then(res => {
+	fetch('/msgs').then(res=>res.json()).then(res => {
 		res.FILES.forEach(fileDat => {
 			id = fileDat.id;
 			content = fileDat.content;
