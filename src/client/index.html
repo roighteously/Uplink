@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta content="Uplink" property="og:title" />
-  <meta content="#FFFFFF" data-react-helmet="true" name="theme-color" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Uplink">
+	<meta content="#FFFFFF" data-react-helmet="true" name="theme-color" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Uplink">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Uplink</title>
 	<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 	<div class='flex' style="display: flex;">
 		<div class="msg">
@@ -30,8 +32,19 @@
 	</div>
 	<script>
 		function login() {
-			
+			let u = document.querySelector('#u')
+			let p = document.querySelector('#p')
+			let ls = u + ":" + p;
+			localStorage.setItem("up", ls);
+			fetch('/login', { method: 'post', headers: { "hi": "HELLO!", "v": "0.2.0", "mo": "gu mogu", "up": ls } })
+				.then(res => res.json())
+				.then(res => {
+					if (res.bruh === "OK") {
+						window.location.href = "/main.html"
+					}
+				})
 		}
 	</script>
 </body>
+
 </html>

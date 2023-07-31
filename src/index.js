@@ -101,6 +101,8 @@ function start() {
 			} else {
 				if (user === cfg['user']) {
 					res.send({ bruh: "OK" })
+				} else {
+					res.send({ bruh: "user wrong" })
 				}
 			}
 		}

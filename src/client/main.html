@@ -20,6 +20,18 @@
 			<p>The missing link between desktop and phone.</p>
 		</div>
 	</div>
+	<script>
+		if(!localStorage.getItem('up')) {
+			window.location.href = '/'
+		}
+		fetch('/login', {method:'post', headers:{"hi": "HELLO!", "v": "0.2.0", "mo": "gu mogu", "up": localStorage.getItem('up')}})
+			.then(res => res.json())
+			.then(res => {
+				if(res.bruh !== "OK") {
+					window.location.href = "/"
+				}
+			})
+	</script>
 	<script src="msgs.js"></script>
 </body>
 </html>
