@@ -12,12 +12,17 @@ window.uplink.getMsg().then(res => {
 		messages[id] = { subject: "", body: [] }
 		const lines = content.split("\n")
 		for (let i = 0; i < lines.length; i++) {
-			const line = lines[i];
+			let line = lines[i];
 			if (line.startsWith('Subject:')) {
 				messages[id].subject = line.split('Subject: [Uplink, at ')[1].split(']')[0];
 			}
 			if (i > lenAfterSplit - 3) {
 				if (line !== '') {
+					if(line.includes('https://')) {
+						link = line.split('https://')[1].split(' ')[0];
+						console.log(link)
+						line = `<a href="https://${link}" target="_blank">https://${link}</a>`
+					}
 					messages[id].body.push(line.trim());
 				}
 			}
