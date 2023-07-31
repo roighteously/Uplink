@@ -1,6 +1,7 @@
 {
 	"imap": {
 		"host": "mail.ifarded.lol",
+		"port": "993",
 		"ssl": true,
 		"username": "admin@ifarded.lol",
 		"password": "abc"
