@@ -7,6 +7,7 @@ function sortMessages() {
 	<p>The missing link between desktop and phone.</p>
 	<p>v0.2.0</p>
 	<button onclick="sortMessages()">Get new messages</button>
+	<button onclick="window.location.reload">Reload</button>
 	</div>`
 	fetch('/msgs').then(res=>res.json()).then(res => {
 		res.FILES.forEach(fileDat => {

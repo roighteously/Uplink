@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&family=Rubik+Mono+One&display=swap');
+html, body { height: 100vh; }
 img {
-	transform: scale(0.5);
+	width: 100%;
+	height: 100%;
 }
 .msg {
 	background-color: rgba(0,0,0,0.25);
@@ -14,8 +16,11 @@ img {
 	justify-content: center;
 	flex-direction: column;
 	gap: 10px;
-	overflow: hidden;
 	font-family: 'Rubik', sans-serif;
+}
+
+div {
+	max-width: 100%;
 }
 
 #title {
