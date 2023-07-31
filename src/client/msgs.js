@@ -1,5 +1,12 @@
 function sortMessages() {
 	const messages = {};
+	document.querySelector('.flex').innerHTML = `<div class="msg">
+	<h1>
+		Uplink
+	</h1>
+	<p>The missing link between desktop and phone.</p>
+	<button onclick="sortMessages()">Get new messages</button>
+	</div>`
 	window.uplink.getMsg().then(res => {
 		res.FILES.forEach(fileDat => {
 			id = fileDat.id;
@@ -53,3 +60,4 @@ function sortMessages() {
 		})
 	})
 }
+sortMessages();

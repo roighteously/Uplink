@@ -38,6 +38,7 @@ function init() {
 				f.once('end', function () {
 					console.log('Done fetching all messages!');
 					imap.end();
+					if (!IS_STARTED) start();
 				});
 			});
 		});
@@ -48,8 +49,7 @@ function init() {
 	});
 	
 	imap.once('end', function () {
-		console.log('Got Uplink data');
-		if (!IS_STARTED) start();
+		console.log('IMAP closed');
 	});
 	
 	imap.connect();
@@ -60,6 +60,7 @@ function start() {
 
 	app.whenReady().then(() => {
 		ipcMain.handle('get_msg', async () => {
+			init();
 			const FILES = [];
 			fs.readdirSync(path.resolve('./uplinks')).forEach(file => {
 				if(file === '.gitkeep') return;

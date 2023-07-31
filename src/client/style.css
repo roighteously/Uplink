@@ -1,8 +1,11 @@
+img {
+	transform: scale(0.5);
+}
 .msg {
 	background-color: rgba(0,0,0,0.25);
 	border-radius: 5px;
 	width: max-content;
-
+	height: max-content;
 	text-align: center;
 }
 .flex {
