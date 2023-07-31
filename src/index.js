@@ -22,11 +22,11 @@ function init() {
 		port: cfg.imap.port,
 		tls: cfg.imap.tls
 	});
-	
+
 	function openInbox(cb) {
 		imap.openBox('INBOX', true, cb);
 	}
-	
+
 	imap.once('ready', function () {
 		openInbox(function (err, box) {
 			if (err) throw err;
@@ -49,26 +49,26 @@ function init() {
 			});
 		});
 	});
-	
+
 	imap.once('error', function (err) {
 		console.log(err);
 	});
-	
+
 	imap.once('end', function () {
 		console.log('IMAP closed');
 	});
-	
+
 	imap.connect();
 }
 
 function start() {
 	IS_STARTED = true;
 
-	if(process.argv[2] !== 'headless') {
+	if (process.argv[2] !== 'headless') {
 		app.whenReady().then(() => {
 			startWindow();
 		});
-	
+
 		app.on('window-all-closed', function () {
 			if (process.platform !== 'darwin') app.quit()
 		});
@@ -76,31 +76,31 @@ function start() {
 
 	happ.get('/msgs', (req, res) => {
 		init();
-			const FILES = [];
-			fs.readdirSync(path.resolve('./uplinks')).forEach(file => {
-				if(file === '.gitkeep') return;
-				FILES.push({
-					id: file,
-					content: fs.readFileSync(path.resolve('./uplinks/' + file)).toString()
-				});
-			})
-			res.send({FILES, END: cfg['header_end']});
+		const FILES = [];
+		fs.readdirSync(path.resolve('./uplinks')).forEach(file => {
+			if (file === '.gitkeep') return;
+			FILES.push({
+				id: file,
+				content: fs.readFileSync(path.resolve('./uplinks/' + file)).toString()
+			});
+		})
+		res.send({ FILES, END: cfg['header_end'] });
 	})
 
-	happ.post('/login', (req,res) => {
-		if(!"hi" in req.headers || !"v" in req.headers || !"mo" in req.headers) { res.sendStatus({bruh:"try again"}); return; }
-		if(req.headers.hi === "HELLO!" && req.headers.v === '0.2.0' && req.headers.mo === 'gu mogu') {
-			if(!"up" in req.headers) {
-				res.send({bruh:"youre missing auth"})
+	happ.post('/login', (req, res) => {
+		if (!"hi" in req.headers || !"v" in req.headers || !"mo" in req.headers) { res.sendStatus({ bruh: "try again" }); return; }
+		if (req.headers.hi === "HELLO!" && req.headers.v === '0.2.0' && req.headers.mo === 'gu mogu') {
+			if (!"up" in req.headers) {
+				res.send({ bruh: "youre missing auth" })
 				return;
 			}
 			user = req.headers.up.split(':')[0];
 			passwd = req.headers.up.split(':')[1];
-			if(passwd !== cfg['passwd']) {
-				res.send({bruh:"passwd wrong"})
+			if (passwd !== cfg['passwd']) {
+				res.send({ bruh: "passwd wrong" })
 			} else {
-				if(user === cfg['user']) {
-					res.send({bruh:"OK"})
+				if (user === cfg['user']) {
+					res.send({ bruh: "OK" })
 				}
 			}
 		}
