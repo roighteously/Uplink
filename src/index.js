@@ -2,6 +2,7 @@ const Imap = require('node-imap');
 const fs = require('fs');
 const path = require('path');
 const { app, BrowserWindow, ipcMain } = require('electron');
+require('electron-reload')(__dirname)
 
 const cfg = require('../config.json');
 

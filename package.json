@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "electron": "^25.3.2",
+    "electron-reload": "^2.0.0-alpha.1",
     "node-imap": "^0.9.6"
   }
 }

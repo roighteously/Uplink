@@ -1,0 +1,9 @@
+.msg {
+	background-color: rgba(0,0,0,0.25);
+	border-radius: 5px;
+	width: max-content;
+}
+.flex {
+	flex-direction: column;
+	gap: 10px;
+}
