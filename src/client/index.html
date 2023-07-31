@@ -23,26 +23,33 @@
 		</div>
 		<div class="msg">
 			<p>To get started, you need to login.</p>
-			<form>
 				<input id="u" placeholder="Username">
 				<input id="p" placeholder="Password">
 				<input type="submit" value="Login" onclick="login()">
-			</form>
 		</div>
 	</div>
 	<script>
+		if(localStorage.getItem('up')) {
+			fetch('/login', {method:'post', headers:{"hi": "HELLO!", "v": "0.2.0", "mo": "gu mogu", "up": localStorage.getItem('up')}})
+			.then(res => res.json())
+			.then(res => {
+				if(res.bruh === "OK") {
+					window.location.href = "/main.html"
+				}
+			})
+		}
 		function login() {
-			let u = document.querySelector('#u')
-			let p = document.querySelector('#p')
+			let u = document.querySelector('#u').value
+			let p = document.querySelector('#p').value
 			let ls = u + ":" + p;
 			localStorage.setItem("up", ls);
-			fetch('/login', { method: 'post', headers: { "hi": "HELLO!", "v": "0.2.0", "mo": "gu mogu", "up": ls } })
-				.then(res => res.json())
-				.then(res => {
-					if (res.bruh === "OK") {
-						window.location.href = "/main.html"
-					}
-				})
+			fetch('/login', {method:'post', headers:{"hi": "HELLO!", "v": "0.2.0", "mo": "gu mogu", "up": localStorage.getItem('up')}})
+			.then(res => res.json())
+			.then(res => {
+				if(res.bruh === "OK") {
+					window.location.href = "/main.html"
+				}
+			})
 		}
 	</script>
 </body>
