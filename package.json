@@ -4,12 +4,14 @@
   "description": "Link uplink to pc",
   "main": "src/index.js",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron": "^25.3.2",
     "node-imap": "^0.9.6"
   }
 }

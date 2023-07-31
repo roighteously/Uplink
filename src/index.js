@@ -1,14 +1,14 @@
 const Imap = require('node-imap');
-
-const { app, BrowserWindow } = require('./')
+const fs = require('fs');
+const path = require('path');
+const { app, BrowserWindow, ipcMain } = require('electron');
 
 const cfg = require('../config.json');
-const fs = require('fs');
 
 let IS_STARTED = false;
 
 function init() {
-	var imap = new Imap({
+	let imap = new Imap({
 		user: cfg.imap.username,
 		password: cfg.imap.password,
 		host: cfg.imap.host,
@@ -28,7 +28,7 @@ function init() {
 				var f = imap.fetch(results, { bodies: '' });
 				f.on('message', function (msg, seqno) {
 					msg.on('body', function (stream, info) {
-						stream.pipe(fs.createWriteStream('msg-' + seqno + '-body.txt'));
+						stream.pipe(fs.createWriteStream('./uplinks/' + seqno + '.uplinkmsg'));
 					});
 				});
 				f.once('error', function (err) {
@@ -56,6 +56,36 @@ function init() {
 
 function start() {
 	IS_STARTED = true;
+
+	app.whenReady().then(() => {
+		ipcMain.handle('get_msg', async () => {
+			const FILES = [];
+			fs.readdirSync(path.resolve('./uplinks')).forEach(file => {
+				if(file === '.gitkeep') return;
+				FILES.push(fs.readFileSync(path.resolve('./uplinks/' + file)).toString());
+			})
+			return {FILES, END: cfg['header_end']};
+		})
+		startWindow();
+	});
+
+	app.on('window-all-closed', function () {
+		if (process.platform !== 'darwin') app.quit()
+	});
+}
+
+function startWindow() {
+	const window = new BrowserWindow({
+		width: 800,
+		height: 600,
+		minWidth: 800,
+		minHeight: 600,
+		webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
+	})
+
+	window.loadFile(path.join(__dirname, "client/index.html"))
 }
 
 init();
