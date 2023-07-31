@@ -4,7 +4,7 @@ const express = require('express');
 const http = require('http');
 const path = require('path');
 const { app, BrowserWindow, ipcMain } = require('electron');
-require('electron-reload')(__dirname)
+// require('electron-reload')(__dirname)
 
 const happ = express();
 const server = http.createServer(happ);
