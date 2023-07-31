@@ -62,7 +62,10 @@ function start() {
 			const FILES = [];
 			fs.readdirSync(path.resolve('./uplinks')).forEach(file => {
 				if(file === '.gitkeep') return;
-				FILES.push(fs.readFileSync(path.resolve('./uplinks/' + file)).toString());
+				FILES.push({
+					id: file,
+					content: fs.readFileSync(path.resolve('./uplinks/' + file)).toString()
+				});
 			})
 			return {FILES, END: cfg['header_end']};
 		})
