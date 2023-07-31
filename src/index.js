@@ -8,7 +8,9 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 
 const happ = express();
 const server = http.createServer(happ);
+const port = process.env.PORT || process.argv[3] || 9069;
 const cfg = require('../config.json');
+const e = require('express');
 
 let IS_STARTED = false;
 
@@ -84,6 +86,25 @@ function start() {
 			})
 			res.send({FILES, END: cfg['header_end']});
 	})
+
+	happ.post('/login', (req,res) => {
+		if(!"hi" in req.headers || !"v" in req.headers || !"mo" in req.headers) { res.sendStatus({bruh:"try again"}); return; }
+		if(req.headers.hi === "HELLO!" && req.headers.v === '0.2.0' && req.headers.mo === 'gu mogu') {
+			if(!"up" in req.headers) {
+				res.send({bruh:"youre missing auth"})
+				return;
+			}
+			user = req.headers.up.split(':')[0];
+			passwd = req.headers.up.split(':')[1];
+			if(passwd !== cfg['passwd']) {
+				res.send({bruh:"passwd wrong"})
+			} else {
+				if(user === cfg['user']) {
+					res.send({bruh:"OK"})
+				}
+			}
+		}
+	})
 }
 
 function startWindow() {
@@ -101,6 +122,6 @@ init();
 
 happ.use('/', express.static(path.resolve('./src/client')))
 
-server.listen(9069, () => {
-	console.log('HTTP server started.');
+server.listen(port, () => {
+	console.log('HTTP server started on port', port);
 })

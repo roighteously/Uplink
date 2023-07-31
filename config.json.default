@@ -6,5 +6,7 @@
 		"tls": true,
 		"username": "admin@ifarded.lol",
 		"password": "abc"
-	}
+	},
+	"user": "Hi",
+	"password": "Hi"
 }
