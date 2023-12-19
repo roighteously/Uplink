@@ -13,32 +13,32 @@ function sortMessages() {
 		res.FILES.forEach(fileDat => {
 			id = fileDat.id;
 			content = fileDat.content;
-			beforeSplitLen = content.split('\n').length;
-			content = content.replace(/=\r\n/g, "")
-			lenAfterSplit = content.split('\n').length;
-			newLenAddable = Number(beforeSplitLen - lenAfterSplit);
-			newLen = Number(Number(res.END) + newLenAddable);
-
+			headers = content.split('=3DENDHEADERS')[0];
+			msgcontent = content.split('=3DENDHEADERS')[1];
+			uplink_m_ver = content.split('+META=3Dv:')[1].split('+')[0];
+			uplink_proc_data = content.split('+UPLINKDATA=')[1];
+			console.log(headers)
 			messages[id] = { subject: "", body: [] }
-			const lines = content.split("\n")
+			const lines = headers.split("\n")
 			for (let i = 0; i < lines.length; i++) {
 				let line = lines[i];
 				if (line.startsWith('Subject:')) {
 					messages[id].subject = line.split('Subject: [Uplink, at ')[1].split(']')[0];
 				}
-				if (i > lenAfterSplit - 3) {
-					if (line !== '') {
-						if (line.includes('https://')) {
-							link = line.split('https://')[1].split(' ')[0];
-							line = `<a href="https://${link}" target="_blank">https://${link}</a>`
-						}
-						if (line.includes('.jpeg') || line.includes('.jpg') || line.includes('.gif') || line.includes('.png')) {
-							link = line.split('https://')[1].split(' ')[0];
-							line = `<img src="https://${link}" alt="Uplink Image">`
-						}
-						messages[id].body.push(line.trim());
-					}
+			}
+			const msgline = msgcontent.split("\n")
+			for (let i = 0; i < msgline.length; i ++) {
+				console.log(line)
+				let line = lines[i];
+				if (line.includes('https://')) {
+					link = line.split('https://')[1].split(' ')[0];
+					line = `<a href="https://${link}" target="_blank">https://${link}</a>`
 				}
+				if (line.includes('.jpeg') || line.includes('.jpg') || line.includes('.gif') || line.includes('.png')) {
+					link = line.split('https://')[1].split(' ')[0];
+					line = `<img src="https://${link}" alt="Uplink Image">`
+				}
+				messages[id].body.push(line.trim());
 			}
 		})
 	}).finally(() => {
